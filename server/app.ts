@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 export const app = express();
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { ErrorMiddleware } from "./middleware/error";
 
 // Body Parser middleware
 app.use(express.json({ limit: "50mb" }));
@@ -24,3 +25,5 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
   err.statusCode = 404;
   next(err);
 });
+
+app.use(ErrorMiddleware);
