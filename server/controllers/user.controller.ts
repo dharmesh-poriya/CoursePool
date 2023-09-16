@@ -7,6 +7,7 @@ require("dotenv").config();
 import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
+import { sendToken } from "../utils/jwt";
 
 // register user
 interface IRegistrationBody {
@@ -116,6 +117,39 @@ export const activateUser = catchAsyncError(
       });
 
       res.status(201).json({ success: true });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
+
+// login user
+interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
+export const loginUser = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.req.body as ILoginRequest;
+
+      if (!email || !password) {
+        return next(new ErrorHandler("Please enter email and password", 400));
+      }
+
+      const user = await userModel.findOne({ email }).select("+password");
+
+      if (!user) {
+        return next(new ErrorHandler("Invalid email or password", 400));
+      }
+
+      const isPasswordMatch = await user.comparePassword(password);
+      if (!isPasswordMatch) {
+        return next(new ErrorHandler("Invalid email or password", 400));
+      }
+
+      sendToken(user, 200, res);
     } catch (err: any) {
       return next(new ErrorHandler(err.message, 400));
     }
