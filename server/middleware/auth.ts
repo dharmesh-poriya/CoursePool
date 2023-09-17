@@ -8,7 +8,7 @@ import { redis } from "../utils/redis";
 export const isAuthenticated = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const access_token = req.req.cookies.access_token;
-
+    // console.log(req.req);
     if (!access_token) {
       return next(
         new ErrorHandler("Please login to access this resource", 400)
@@ -29,6 +29,7 @@ export const isAuthenticated = catchAsyncError(
       return next(new ErrorHandler("user not found", 400));
     }
 
-    req.user = JSON.parse(user);
+    req.req.user = JSON.parse(user);
+    next();
   }
 );
