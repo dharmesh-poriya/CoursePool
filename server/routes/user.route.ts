@@ -5,6 +5,7 @@ import {
   loginUser,
   logoutUser,
   registrationUser,
+  socialAuth,
   updateAccessToken,
 } from "../controllers/user.controller";
 import { authorizeRoles, isAuthenticated } from "../middleware/auth";
@@ -22,5 +23,7 @@ userRouter.get("/logout", isAuthenticated, logoutUser);
 userRouter.get("/refresh", updateAccessToken);
 
 userRouter.get("/me", isAuthenticated, getUserInfo);
+
+userRouter.post("/social-auth", socialAuth);
 
 export default userRouter;
