@@ -14,6 +14,7 @@ import {
 } from "../utils/jwt";
 import { redis } from "../utils/redis";
 import { getUserById } from "../services/user.service";
+import cloudinary from "cloudinary";
 
 // register user
 interface IRegistrationBody {
@@ -22,7 +23,6 @@ interface IRegistrationBody {
   password: string;
   avatar?: string;
 }
-
 export const registrationUser = catchAsyncError(
   async (req: any, res: Response, next: NextFunction) => {
     try {
@@ -68,11 +68,11 @@ export const registrationUser = catchAsyncError(
   }
 );
 
+// Activate the user by OTP
 interface IActivationToken {
   token: string;
   activationCode: string;
 }
-
 export const createActivationToken = (user: any): IActivationToken => {
   const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
   const token = jwt.sign(
@@ -92,7 +92,6 @@ interface IActivationRequest {
   activation_token: string;
   activation_code: string;
 }
-
 export const activateUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -134,7 +133,6 @@ interface ILoginRequest {
   email: string;
   password: string;
 }
-
 export const loginUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -245,13 +243,12 @@ export const getUserInfo = catchAsyncError(
   }
 );
 
+// social auth
 interface ISocialAuthBody {
   email: string;
   name: string;
   avatar: string;
 }
-
-// social auth
 export const socialAuth = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -275,7 +272,6 @@ interface IUpdateUserInfo {
   name?: string;
   email?: string;
 }
-
 export const updateUserInfo = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -298,6 +294,48 @@ export const updateUserInfo = catchAsyncError(
       await user?.save();
 
       await redis.set(userId, JSON.stringify(user));
+
+      res.status(201).json({
+        success: true,
+        user,
+      });
+    } catch (err: any) {
+      return next(new ErrorHandler(err.message, 400));
+    }
+  }
+);
+
+// update user password
+interface IUpdatePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+export const updatePassword = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { oldPassword, newPassword } = req.req.body as IUpdatePassword;
+
+      if (!oldPassword || !newPassword) {
+        return next(new ErrorHandler("Enter a new and old password", 400));
+      }
+      const user = await userModel
+        .findById(req.req.user?._id)
+        .select("+password");
+
+      if (user?.password === undefined) {
+        return next(new ErrorHandler("Invalid User", 400));
+      }
+
+      const isPasswordMatch = await user?.comparePassword(oldPassword);
+      if (!isPasswordMatch) {
+        return next(new ErrorHandler("Invalid Password", 400));
+      }
+
+      user.password = newPassword;
+
+      await user.save();
+
+      await redis.set(req.req.user._id, JSON.stringify(user));
 
       res.status(201).json({
         success: true,
