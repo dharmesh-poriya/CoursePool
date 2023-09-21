@@ -11,6 +11,7 @@ import {
   getCourseByUser,
   getSingleCourse,
   uploadCourse,
+  deleteCourse,
 } from "../controllers/course.controller";
 
 const courseRouter = express.Router();
@@ -53,6 +54,13 @@ courseRouter.get(
   isAuthenticated,
   authorizeRoles("admin"),
   getAdminAllCourses
+);
+
+courseRouter.delete(
+  "/delete-course/:id",
+  isAuthenticated,
+  authorizeRoles("admin"),
+  deleteCourse
 );
 
 export default courseRouter;
