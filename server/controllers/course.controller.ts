@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import path from "path";
 import sendMail from "../utils/sendMail";
 import ejs from "ejs";
+import NotificationModel from "../models/notificationModel";
 
 // upload course
 export const uploadCourse = catchAsyncError(
@@ -187,6 +188,12 @@ export const addQuestion = catchAsyncError(
 
       courseContent.questions?.push(newQuestion);
 
+      await NotificationModel.create({
+        user: req.req.user?._id,
+        title: "New Quetion Received",
+        message: `You have a new Quetion in ${courseContent.title} course`,
+      });
+
       await course?.save();
 
       res.status(201).json({
@@ -246,7 +253,12 @@ export const addAnswer = catchAsyncError(
       await course?.save();
 
       if (req.req.user?._id === question.user._id) {
-        console.log("SAME USER, CREATE NOTIFICATION");
+        // console.log("SAME USER, CREATE NOTIFICATION");
+        await NotificationModel.create({
+          user: req.req.user?._id,
+          title: "New Quetion Reply Received",
+          message: `you have a new quetions reply in ${courseContent.title}`,
+        });
       } else {
         // send mail
         const data = {
