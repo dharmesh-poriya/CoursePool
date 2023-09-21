@@ -100,7 +100,7 @@ export const getSingleCourse = catchAsyncError(
 );
 
 // get all course without purchased
-export const getAllCourse = catchAsyncError(
+export const getAllCourses = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const isCacheExist = await redis.get("allCourses");
@@ -402,7 +402,7 @@ export const addReply = catchAsyncError(
 );
 
 // get all courses -- only for Admin user
-export const getAllCourses = catchAsyncError(
+export const getAdminAllCourses = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       getAllCoursesService(res);
