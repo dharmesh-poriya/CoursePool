@@ -300,7 +300,7 @@ export const updateUserInfo = catchAsyncError(
         user,
       });
     } catch (err: any) {
-      return next(new ErrorHandler(err.message, 400));
+      return next(new ErrorHandler(err.message, 500));
     }
   }
 );
@@ -342,7 +342,7 @@ export const updatePassword = catchAsyncError(
         user,
       });
     } catch (err: any) {
-      return next(new ErrorHandler(err.message, 400));
+      return next(new ErrorHandler(err.message, 500));
     }
   }
 );
@@ -384,7 +384,7 @@ export const updateProfilePicture = catchAsyncError(
         user,
       });
     } catch (err: any) {
-      return next(new ErrorHandler(err.message, 400));
+      return next(new ErrorHandler(err.message, 500));
     }
   }
 );

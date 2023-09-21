@@ -8,6 +8,7 @@ import userRouter from "./routes/user.route";
 import courseRouter from "./routes/course.route";
 import bodyParser from "body-parser";
 import orderRouter from "./routes/order.route";
+import notificationRoute from "./routes/notification.route";
 
 // Body Parser middleware
 app.use(express.json({ limit: "50mb" }));
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 app.use(cors({ origin: process.env.ORIGIN }));
 
 // routes
-app.use("/api/v1", userRouter, courseRouter, orderRouter);
+app.use("/api/v1", userRouter, courseRouter, orderRouter, notificationRoute);
 
 // testing API's
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
