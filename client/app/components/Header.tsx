@@ -14,6 +14,7 @@ import avatar from "../../public/assets/avatar.png";
 import { useSession } from "next-auth/react";
 import { useSocialAuthMutation } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 type Props = {
   open: boolean;
@@ -27,20 +28,34 @@ const Header: FC<Props> = ({ open, activeItem, setOpen, route, setRoute }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const { user } = useSelector((state: any) => state.auth);
+  const [logout, setLogout] = useState(false);
+  const { data: userData, isLoading, refetch } = useLoadUserQuery(undefined, {});
   const { data } = useSession();
-  
+
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
 
   useEffect(() => {
-    if (!user) {
-      if (data) {
-        socialAuth({ email: data?.user?.email, name: data?.user?.name, avatar: data?.user?.image });
+    if (!isLoading) {
+      if (!userData) {
+        if (data) {
+          socialAuth({
+            email: data?.user?.email,
+            name: data?.user?.name,
+            avatar: data.user?.image,
+          });
+          refetch();
+        }
+      }
+      if (data === null) {
+        if (isSuccess) {
+          toast.success("Login Successfully");
+        }
+      }
+      if (data === null && !isLoading && !userData) {
+        setLogout(true);
       }
     }
-    if(isSuccess){
-      toast.success("Logged in successfully")
-    }
-  }, [data, user])
+  }, [data, isLoading]);
 
 
   if (typeof window !== "undefined") {
