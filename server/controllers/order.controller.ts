@@ -78,7 +78,7 @@ export const createOrder = catchAsyncError(
         message: `You have new order for ${course?.name} course`,
       });
 
-      course.purchased ? (course.purchased += 1) : course.purchased;
+      if(course.purchased!==undefined) course.purchased += 1;
 
       await course.save();
       //   newOrder(data, res, next);
