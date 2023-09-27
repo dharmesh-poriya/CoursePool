@@ -11,12 +11,12 @@ import { FcGoogle } from "react-icons/fc";
 import { styles } from "../../../app/styles/style";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
-import {signIn} from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 type Props = {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
-  refetch:any;
+  refetch: any;
 };
 
 const schema = Yup.object().shape({
@@ -26,7 +26,7 @@ const schema = Yup.object().shape({
   password: Yup.string().required("Please enter your password!").min(6),
 });
 
-const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
+const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const [show, setShow] = useState(false);
   const [login, { isSuccess, error }] = useLoginMutation();
   const formik = useFormik({
@@ -41,7 +41,7 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
     if (isSuccess) {
       toast.success("Login Successfully!");
       setOpen(false);
-    //   refetch();
+      //   refetch();
     }
     if (error) {
       if ("data" in error) {
@@ -49,13 +49,13 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
         toast.error(errorData.data.message);
       }
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error, setOpen]);
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   return (
     <div className="w-full">
-      <h1 className={`${styles.title}`}>Login with ELearning</h1>
+      <h1 className={`${styles.title}`}>Login with CoursePool</h1>
       <form onSubmit={handleSubmit}>
         <label className={`${styles.label}`} htmlFor="email">
           Enter your Email
@@ -114,10 +114,16 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
           Or join with
         </h5>
         <div className="flex items-center justify-center my-3">
-          <FcGoogle size={30} className="cursor-pointer mr-2"
-          onClick={() => signIn("google")}
+          <FcGoogle
+            size={30}
+            className="cursor-pointer mr-2"
+            onClick={() => signIn("google")}
           />
-          <AiFillGithub size={30} className="cursor-pointer ml-2" onClick={() => signIn("github")} />
+          <AiFillGithub
+            size={30}
+            className="cursor-pointer ml-2"
+            onClick={() => signIn("github")}
+          />
         </div>
         <h5 className="text-center pt-4 font-Poppins text-[14px]">
           Not have any account?{" "}

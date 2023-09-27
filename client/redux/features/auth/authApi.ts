@@ -101,9 +101,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          dispatch(
-            userLoggedOut()
-          );
+          dispatch(userLoggedOut());
         } catch (error: any) {
           console.log(error);
         }
@@ -112,4 +110,10 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useRegisterMutation, useActivationMutation, useLoginMutation, useSocialAuthMutation, useLogOutQuery } = authApi;
+export const {
+  useRegisterMutation,
+  useActivationMutation,
+  useLoginMutation,
+  useSocialAuthMutation,
+  useLogOutQuery,
+} = authApi;
