@@ -190,8 +190,8 @@ export const addQuestion = catchAsyncError(
 
       await NotificationModel.create({
         user: req.req.user?._id,
-        title: "New Quetion Received",
-        message: `You have a new Quetion in ${courseContent.title} course`,
+        title: "New Question Received",
+        message: `You have a new Question in ${courseContent.title} course`,
       });
 
       await course?.save();
@@ -256,8 +256,8 @@ export const addAnswer = catchAsyncError(
         // console.log("SAME USER, CREATE NOTIFICATION");
         await NotificationModel.create({
           user: req.req.user?._id,
-          title: "New Quetion Reply Received",
-          message: `you have a new quetions reply in ${courseContent.title}`,
+          title: "New Question Reply Received",
+          message: `you have a new questions reply in ${courseContent.title}`,
         });
       } else {
         // send mail
