@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
 import { useTheme } from "next-themes";
-import { FiEdit2 } from "react-icons/fi";
 import Loader from "../../Loader/Loader";
 import { format } from "timeago.js";
 import { styles } from "@/app/styles/style";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi";
 import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
 
-type Props = {};
+type Props = {
+  isTeam: boolean;
+};
 
-const AllUsers = (props: Props) => {
+const AllUsers: FC<Props> = ({ isTeam }) => {
   const { theme, setTheme } = useTheme();
+  const [active, setActive] = useState(false);
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("admin");
+  const [open, setOpen] = useState(false);
+  const [userId, setUserId] = useState("");
   const { isLoading, data, refetch } = useGetAllUsersQuery(
     {},
     { refetchOnMountOrArgChange: true }
@@ -67,7 +72,22 @@ const AllUsers = (props: Props) => {
 
   const rows: any = [];
 
-  {
+  if (isTeam) {
+    const newData =
+      data && data.users.filter((item: any) => item.role === "admin");
+
+    newData &&
+      newData.forEach((item: any) => {
+        rows.push({
+          id: item._id,
+          name: item.name,
+          email: item.email,
+          role: item.role,
+          courses: item.courses.length,
+          created_at: format(item.createdAt),
+        });
+      });
+  } else {
     data &&
       data.users.forEach((item: any) => {
         rows.push({
@@ -87,6 +107,16 @@ const AllUsers = (props: Props) => {
         <Loader />
       ) : (
         <Box m="20px">
+          {isTeam && (
+            <div className="w-full flex justify-end">
+              <div
+                className={`${styles.button} !w-[200px] !rounded-[10px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
+                onClick={() => setActive(!active)}
+              >
+                Add New Member
+              </div>
+            </div>
+          )}
           <Box
             m="40px 0 0 0"
             height="80vh"
