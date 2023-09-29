@@ -3,6 +3,7 @@ import CourseOptions from "./CourseOptions";
 import CourseInformation from "./CourseInformation";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
+import CoursePreview from "./CoursePreview";
 
 type Props = {};
 
@@ -84,6 +85,12 @@ const CreateCourse = (props: Props) => {
     setCourseData(data);
   };
 
+  const handleCourseCreate = async (e: any) => {
+    const data = courseData;
+    // if (!isLoading) {
+    //   await createCourse(data);
+    // }
+  };
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
@@ -114,6 +121,14 @@ const CreateCourse = (props: Props) => {
             courseContentData={courseContentData}
             setCourseContentData={setCourseContentData}
             handleSubmit={handleSubmit}
+          />
+        )}
+        {active === 3 && (
+          <CoursePreview
+            active={active}
+            setActive={setActive}
+            courseData={courseData}
+            handleCourseCreate={handleCourseCreate}
           />
         )}
       </div>

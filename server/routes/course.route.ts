@@ -12,6 +12,7 @@ import {
   getSingleCourse,
   uploadCourse,
   deleteCourse,
+  generateVideoUrl,
 } from "../controllers/course.controller";
 
 const courseRouter = express.Router();
@@ -55,6 +56,8 @@ courseRouter.get(
   authorizeRoles("admin"),
   getAdminAllCourses
 );
+
+courseRouter.post("/getVdoCipherOTP", generateVideoUrl);
 
 courseRouter.delete(
   "/delete-course/:id",
