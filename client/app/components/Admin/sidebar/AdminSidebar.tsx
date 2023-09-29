@@ -100,7 +100,7 @@ const Sidebar = () => {
           top: 0,
           left: 0,
           height: "100vh",
-          zIndex:99999999999999,
+          zIndex: 99999999999999,
           width: isCollapsed ? "0%" : "16%",
         }}
       >
@@ -120,12 +120,15 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-               <Link href="/" className="block">
-               <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
-                  CoursePool
-                </h3>
-               </Link>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)} className="inline-block">
+                <Link href="/" className="block">
+                  <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
+                    CoursePool
+                  </h3>
+                </Link>
+                <IconButton
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="inline-block"
+                >
                   <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1]" />
                 </IconButton>
               </Box>

@@ -225,7 +225,7 @@ const CourseContent: FC<Props> = ({
                       <label className={styles.label}>Video Url</label>
                       <input
                         type="text"
-                        placeholder="sdder"
+                        placeholder="Add Url"
                         className={`${styles.input}`}
                         value={item.videoUrl}
                         onChange={(e) => {
@@ -236,7 +236,9 @@ const CourseContent: FC<Props> = ({
                       />
                     </div>
                     <div className="mb-3">
-                      <label className={styles.label}>Video Length (in minutes)</label>
+                      <label className={styles.label}>
+                        Video Length (in minutes)
+                      </label>
                       <input
                         type="number"
                         placeholder="20"
@@ -249,14 +251,13 @@ const CourseContent: FC<Props> = ({
                         }}
                       />
                     </div>
-                    
 
                     <div className="mb-3">
                       <label className={styles.label}>Video Description</label>
                       <textarea
                         rows={8}
                         cols={30}
-                        placeholder="sdder"
+                        placeholder="Add your video description"
                         className={`${styles.input} !h-min py-2`}
                         value={item.description}
                         onChange={(e) => {

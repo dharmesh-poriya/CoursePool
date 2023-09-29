@@ -5,7 +5,7 @@ type Props = {
   isDashboard?: boolean;
 };
 
-const DashboardHero = ({isDashboard}: Props) => {
+const DashboardHero = ({ isDashboard }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
