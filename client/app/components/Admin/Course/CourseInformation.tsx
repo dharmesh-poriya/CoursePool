@@ -1,4 +1,5 @@
 import { styles } from "@/app/styles/style";
+import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 import Image from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
@@ -15,8 +16,15 @@ const CourseInformation: FC<Props> = ({
   active,
   setActive,
 }) => {
+  const { data } = useGetHeroDataQuery("Categories", {});
   const [dragging, setDragging] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data.layout.categories);
+    }
+  }, [data]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -160,7 +168,7 @@ const CourseInformation: FC<Props> = ({
             <select
               name=""
               id=""
-              className={`${styles.input}`}
+              className={`${styles.select}`}
               value={courseInfo.category}
               onChange={(e: any) =>
                 setCourseInfo({ ...courseInfo, categories: e.target.value })
