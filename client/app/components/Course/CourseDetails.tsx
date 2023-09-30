@@ -7,16 +7,25 @@ import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 import { format } from "timeago.js";
 import CourseContentList from "../Course/CourseContentList";
 import { Elements } from "@stripe/react-stripe-js";
+import CheckOutForm from "../Payment/CheckOutForm";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Image from "next/image";
 import { VscVerifiedFilled } from "react-icons/vsc";
 
 type Props = {
   data: any;
+  stripePromise: any;
+  clientSecret: string;
+  setRoute: any;
+  setOpen: any;
 };
 
 const CourseDetails = ({
-  data
+  data,
+  stripePromise,
+  clientSecret,
+  setRoute,
+  setOpen: openAuthModal,
 }: Props) => {
   const { data: userData,refetch } = useLoadUserQuery(undefined, {});
   const [user, setUser] = useState<any>();
@@ -30,9 +39,19 @@ const CourseDetails = ({
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
 
   const discountPercentengePrice = dicountPercentenge.toFixed(0);
-
+  console.log("USER",user);
+  console.log("DATA",data);
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
+
+  const handleOrder = (e: any) => {
+    if (user) {
+      setOpen(true);
+    } else {
+      setRoute("Login");
+      openAuthModal(true);
+    }
+  };
 
   return (
     <div>
@@ -221,7 +240,7 @@ const CourseDetails = ({
                 ) : (
                   <div
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
-                    onClick={() => {}}
+                    onClick={handleOrder}
                   >
                     Buy Now {data.price}$
                   </div>
@@ -244,6 +263,28 @@ const CourseDetails = ({
           </div>
         </div>
       </div>
+      <>
+        {open && (
+          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center">
+            <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
+              <div className="w-full flex justify-end">
+                <IoCloseOutline
+                  size={40}
+                  className="text-black cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <div className="w-full">
+                {stripePromise && clientSecret && (
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <CheckOutForm setOpen={setOpen} data={data} user={user} refetch={refetch} />
+                  </Elements>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     </div>
   );
 };
