@@ -283,7 +283,7 @@ const CourseContentMedia = ({
                             src={
                                 user.avatar
                                     ? user.avatar.url
-                                    : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                                    : "https://res.cloudinary.com/dig1xnhyl/image/upload/v1696181416/avatars/avatar_sku8tm.png"
                             }
                             width={50}
                             height={50}
@@ -340,7 +340,7 @@ const CourseContentMedia = ({
                                         src={
                                             user.avatar
                                                 ? user.avatar.url
-                                                : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                                                : "https://res.cloudinary.com/dig1xnhyl/image/upload/v1696181416/avatars/avatar_sku8tm.png"
                                         }
                                         width={50}
                                         height={50}
@@ -412,7 +412,7 @@ const CourseContentMedia = ({
                                                         src={
                                                             item.user.avatar
                                                                 ? item.user.avatar.url
-                                                                : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                                                                : "https://res.cloudinary.com/dig1xnhyl/image/upload/v1696181416/avatars/avatar_sku8tm.png"
                                                         }
                                                         width={50}
                                                         height={50}
@@ -467,7 +467,7 @@ const CourseContentMedia = ({
                                                             src={
                                                                 i.user.avatar
                                                                     ? i.user.avatar.url
-                                                                    : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                                                                    : "https://res.cloudinary.com/dig1xnhyl/image/upload/v1696181416/avatars/avatar_sku8tm.png"
                                                             }
                                                             width={50}
                                                             height={50}
@@ -551,7 +551,7 @@ const CommentItem = ({
                             src={
                                 item.user.avatar
                                     ? item.user.avatar.url
-                                    : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                                    : "https://res.cloudinary.com/dig1xnhyl/image/upload/v1696181416/avatars/avatar_sku8tm.png"
                             }
                             width={50}
                             height={50}
@@ -599,7 +599,7 @@ const CommentItem = ({
                                         src={
                                             item.user.avatar
                                                 ? item.user.avatar.url
-                                                : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                                                : "https://res.cloudinary.com/dig1xnhyl/image/upload/v1696181416/avatars/avatar_sku8tm.png"
                                         }
                                         width={50}
                                         height={50}
