@@ -10,6 +10,7 @@ import Client1 from "../../../public/assets/client-1.jpg";
 import Client2 from "../../../public/assets/client-2.jpg";
 import Client3 from "../../../public/assets/client-3.jpg";
 import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
+import Loader from "../Loader/Loader";
 
 
 type Props = {};
@@ -17,7 +18,7 @@ type Props = {};
 const Hero: FC<Props> = (props) => {
   const [search,setSearch] = useState(" ");
   const router = useRouter()
-  const { data, refetch } = useGetHeroDataQuery("Banner", {});
+  const { data, isLoading } = useGetHeroDataQuery("Banner", {});
 
   const handleSearch = () => {
    if(search === ""){
@@ -29,7 +30,12 @@ const Hero: FC<Props> = (props) => {
 
 
   return (
-   <>
+    <>
+    {
+      isLoading ? (
+        <Loader />
+      ) : (
+        <>
    
       <div className="w-full 1000px:flex items-center">
       <div className="absolute top-[100px] 1000px:top-[unset] 1500px:h-[700px] 1500px:w-[700px] 1100px:h-[600px] 1100px:w-[600px] h-[40vh] left-5 w-[40vh] hero_animation rounded-[50%] 1100px:left-8 1500px:left-14"></div>
@@ -97,6 +103,9 @@ const Hero: FC<Props> = (props) => {
         <br />
       </div>
     </div>
+   </>
+      )
+    }
    </>
   );
 };
