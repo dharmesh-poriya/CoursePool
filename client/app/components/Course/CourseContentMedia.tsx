@@ -118,7 +118,7 @@ const CourseContentMedia = ({
             if (user.role !== "admin") {
                 socketId.emit("notification", {
                     title: `New Reply Received`,
-                    message: `You have a new question in ${data[activeVideo].title}`,
+                    message: `You have a new reply in question in ${data[activeVideo].title}`,
                     userId: user._id,
                 });
             }
@@ -140,8 +140,8 @@ const CourseContentMedia = ({
             setRating(1);
             courseRefetch();
             socketId.emit("notification", {
-                title: `New Question Received`,
-                message: `You have a new question in ${data[activeVideo].title}`,
+                title: `New Review Added`,
+                message: `You have a new review in ${data[activeVideo].title}`,
                 userId: user._id,
             });
         }
