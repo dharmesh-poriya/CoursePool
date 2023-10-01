@@ -153,6 +153,7 @@ const CourseContent: FC<Props> = ({
                         } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
                         value={item.videoSection}
                         onChange={(e) => {
+                          // console.log("title changed called", e.target.value);
                           const updatedData = [...courseContentData];
                           updatedData[index].videoSection = e.target.value;
                           setCourseContentData(updatedData);

@@ -23,7 +23,7 @@ const page = (props: Props) => {
             <AdminSidebar />
           </div>
           <div className="w-[85%]">
-            <DashboardHero isDashboard={true} />
+            <DashboardHero/>
             <AllUsers isTeam={false} />
           </div>
         </div>

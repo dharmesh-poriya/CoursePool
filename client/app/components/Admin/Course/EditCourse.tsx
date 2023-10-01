@@ -39,25 +39,6 @@ const EditCourse: FC<Props> = ({ id }) => {
 
   const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    if (editCourseData) {
-      setCourseInfo({
-        name: editCourseData.name,
-        description: editCourseData.description,
-        price: editCourseData.price,
-        estimatedPrice: editCourseData?.estimatedPrice,
-        tags: editCourseData.tags,
-        level: editCourseData.level,
-        categories: editCourseData.categories,
-        demoUrl: editCourseData.demoUrl,
-        thumbnail: editCourseData?.thumbnail?.url,
-      });
-      setBenefits(editCourseData.benefits);
-      setPrerequisites(editCourseData.prerequisites);
-      setCourseContentData(editCourseData.courseData);
-    }
-  }, [editCourseData]);
-
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
@@ -69,6 +50,7 @@ const EditCourse: FC<Props> = ({ id }) => {
     demoUrl: "",
     thumbnail: "",
   });
+
   const [benefits, setBenefits] = useState([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
   const [courseContentData, setCourseContentData] = useState([
@@ -89,6 +71,47 @@ const EditCourse: FC<Props> = ({ id }) => {
   ]);
 
   const [courseData, setCourseData] = useState({});
+
+  useEffect(() => {
+    if (editCourseData) {
+      setCourseInfo({
+        name: editCourseData.name,
+        description: editCourseData.description,
+        price: editCourseData.price,
+        estimatedPrice: editCourseData?.estimatedPrice,
+        tags: editCourseData.tags,
+        level: editCourseData.level,
+        categories: editCourseData.categories,
+        demoUrl: editCourseData.demoUrl,
+        thumbnail: editCourseData?.thumbnail?.url,
+      });
+      const dummyBenefit = editCourseData.benefits.map((obj: any) => ({
+        title: obj.title,
+      }));
+      setBenefits(dummyBenefit);
+
+      const dummyPrerequisites = editCourseData.prerequisites.map(
+        (obj: any) => ({
+          title: obj.title,
+        })
+      );
+      setPrerequisites(dummyPrerequisites);
+      // console.log(editCourseData.courseData);
+      const dummy = editCourseData.courseData.map((obj: any) => ({
+        title: obj.title,
+        videoUrl: obj.videoUrl,
+        description: obj.description,
+        videoSection: obj.videoSection,
+        videoLength: obj.videoLength,
+        links: obj.links.map((link: any) => ({
+          title: link.title,
+          url: link.url,
+        })),
+        suggestion: obj.suggestion,
+      }));
+      setCourseContentData(dummy);
+    }
+  }, [editCourseData]);
 
   const handleSubmit = () => {
     // Format benefits array
