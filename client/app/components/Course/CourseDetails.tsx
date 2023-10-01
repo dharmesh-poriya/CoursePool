@@ -39,6 +39,8 @@ const CourseDetails = ({
     ((data?.estimatedPrice - data.price) / data?.estimatedPrice) * 100;
 
   const discountPercentengePrice = dicountPercentenge.toFixed(0);
+  console.log("USER",user);
+  console.log("DATA",data);
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
 

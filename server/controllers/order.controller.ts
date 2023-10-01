@@ -87,7 +87,7 @@ export const createOrder = catchAsyncError(
 
       user?.courses.push(course?._id);
       await user?.save();
-      await redis.set(req.req.user?._id, JSON.stringify(user));
+      await redis.set(req.user?._id, JSON.stringify(user));
 
       await NotificationModel.create({
         user: user?._id,
@@ -135,7 +135,18 @@ export const sendStripePublishableKey = catchAsyncError(
 export const newPayment = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const customer = await stripe.customers.create({
+        name: "Dharemsh Poriya",
+        address: {
+          line1: "Varachha Road",
+          postal_code: "395006",
+          city: "Surat",
+          state: "Gujarat",
+          country: "India",
+        },
+      });
       const myPayment = await stripe.paymentIntents.create({
+        customer: customer.id,
         amount: req.req.body.amount,
         currency: "USD",
         description: "Purchase of CoursePool course for learning purpose!!",
@@ -146,13 +157,13 @@ export const newPayment = catchAsyncError(
           enabled: true,
         },
         shipping: {
-          name: "Jenny Rosen",
+          name: 'Jenny Rosen',
           address: {
-            line1: "510 Townsend St",
-            postal_code: "98140",
-            city: "San Francisco",
-            state: "CA",
-            country: "US",
+            line1: '510 Townsend St',
+            postal_code: '98140',
+            city: 'San Francisco',
+            state: 'CA',
+            country: 'US',
           },
         },
       });
