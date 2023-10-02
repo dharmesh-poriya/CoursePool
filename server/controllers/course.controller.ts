@@ -139,7 +139,7 @@ export const getAllCourses = catchAsyncError(
         });
       } else {
         const courses = await CourseModel.find().select(
-          "-courseData.videoUrl -courseData.videoSection -courseData.videoLength -courseData.videoPlayer -courseData.links -courseData.suggestion -courseData.questions"
+          "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
         );
         await redis.set("allCourses", JSON.stringify(courses));
         res.status(200).json({
