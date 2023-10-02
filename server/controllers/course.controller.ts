@@ -42,6 +42,11 @@ export const editCourse = catchAsyncError(
       const thumbnail = data.thumbnail;
       const courseId = req.req.params.id;
 
+      const isCacheExist = await redis.get(courseId);
+      if (isCacheExist) {
+        await redis.del(courseId);
+      }
+
       const courseData = (await CourseModel.findById(courseId)) as any;
 
       if (thumbnail && !thumbnail.startsWith("https")) {
@@ -105,7 +110,7 @@ export const getSingleCourse = catchAsyncError(
         });
       } else {
         const course = await CourseModel.findById(courseId).select(
-          "-courseData.videoUrl -courseData.videoSection -courseData.videoLength -courseData.videoPlayer -courseData.links -courseData.suggestion -courseData.questions"
+          "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
         );
 
         await redis.set(courseId, JSON.stringify(course), "EX", 604800); // 7 days expiration
@@ -361,7 +366,7 @@ export const addReview = catchAsyncError(
       }
       await course?.save();
       await redis.set(courseId, JSON.stringify(course), "EX", 604800);
-      
+
       // send notification
       await NotificationModel.create({
         user: req.req.user?._id,
