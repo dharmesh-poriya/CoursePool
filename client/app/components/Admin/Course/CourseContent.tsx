@@ -150,7 +150,7 @@ const CourseContent: FC<Props> = ({
                           item.videoSection === "Untitled Section"
                             ? "w-[170px]"
                             : "w-min"
-                        } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
+                        } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none border-b-2 border-slate-400`}
                         value={item.videoSection}
                         onChange={(e) => {
                           // console.log("title changed called", e.target.value);
@@ -173,7 +173,9 @@ const CourseContent: FC<Props> = ({
                           {index + 1}. {item.title}
                         </p>
                       ) : (
-                        <></>
+                        <p className="font-Poppins dark:text-red-600 text-black">
+                          Untitled Video
+                        </p>
                       )}
                     </>
                   ) : (
