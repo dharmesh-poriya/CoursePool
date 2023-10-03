@@ -141,7 +141,7 @@ export const getAllCourses = catchAsyncError(
         const courses = await CourseModel.find().select(
           "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
         );
-        await redis.set("allCourses", JSON.stringify(courses));
+        await redis.set("allCourses", JSON.stringify(courses), "EX", 300); // 5 minuts
         res.status(200).json({
           success: true,
           courses,
@@ -223,6 +223,7 @@ export const addQuestion = catchAsyncError(
 
       await course?.save();
 
+      await redis.set(courseId, JSON.stringify(course), "EX", 604800);
       res.status(201).json({
         success: true,
         course,
@@ -280,7 +281,7 @@ export const addAnswer = catchAsyncError(
       question.questionReplies?.push(newAnswer);
 
       await course?.save();
-
+      await redis.set(courseId, JSON.stringify(course), "EX", 604800);
       if (req.req.user?._id === question.user._id) {
         // console.log("SAME USER, CREATE NOTIFICATION");
         await NotificationModel.create({
@@ -459,7 +460,10 @@ export const deleteCourse = catchAsyncError(
       }
 
       await course.deleteOne({ id });
-      await redis.del(id);
+      const isCacheExist = await redis.get(id);
+      if (isCacheExist) {
+        await redis.del(id);
+      }
 
       res.status(200).json({
         success: true,
