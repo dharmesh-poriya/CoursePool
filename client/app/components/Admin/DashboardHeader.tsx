@@ -25,9 +25,9 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   const [notifications, setNotifications] = useState<any>([]);
   const [audio] = useState<any>(
     typeof window !== "undefined" &&
-    new Audio(
-      "https://res.cloudinary.com/dig1xnhyl/video/upload/v1696192391/avatars/notification_vcetjn_vqbbbk.mp3"
-    )
+      new Audio(
+        "https://res.cloudinary.com/dig1xnhyl/video/upload/v1696192391/avatars/notification_vcetjn_vqbbbk.mp3"
+      )
   );
 
   const playNotificationSound = () => {
@@ -44,13 +44,14 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
       refetch();
     }
     audio.load();
-  }, [data, isSuccess, audio]);
+  }, [data, isSuccess, audio, refetch]);
 
   useEffect(() => {
     socketId.on("newNotification", (data) => {
       refetch();
       playNotificationSound();
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleNotificationStatusChange = async (id: string) => {
