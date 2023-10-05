@@ -3,6 +3,7 @@ import ErrorHandler from "../utils/ErrorHandler";
 import { catchAsyncError } from "../middleware/catchAsyncErrors";
 import LayoutModel from "../models/layout.model";
 import cloudinary from "cloudinary";
+import { redis } from "../utils/redis";
 
 // create layout
 export const createLayout = catchAsyncError(
@@ -98,6 +99,11 @@ export const editLayout = catchAsyncError(
           subTitle,
         };
 
+        const isCacheExist = await redis.get("Banner");
+        if (isCacheExist) {
+          await redis.del("Banner");
+        }
+
         await LayoutModel.findByIdAndUpdate(bannerData._id, { banner });
       }
 
@@ -116,6 +122,10 @@ export const editLayout = catchAsyncError(
           type: "FAQ",
           faq: faqItems,
         });
+        const isCacheExist = await redis.get("faq");
+        if (isCacheExist) {
+          await redis.del("faq");
+        }
       }
       if (type === "Categories") {
         const { categories } = req.req.body;
@@ -133,6 +143,11 @@ export const editLayout = catchAsyncError(
           type: "Categories",
           categories: categoriesItems,
         });
+
+        const isCacheExist = await redis.get("Categories");
+        if (isCacheExist) {
+          await redis.del("Categories");
+        }
       }
 
       res.status(200).json({
@@ -150,11 +165,55 @@ export const getLayoutByType = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { type } = req.req.params;
-      const layout = await LayoutModel.findOne({ type });
-      res.status(201).json({
-        success: true,
-        layout,
-      });
+      if (type === "FAQ") {
+        const isCacheExist = await redis.get("faq");
+        if (isCacheExist) {
+          const layout = JSON.parse(isCacheExist);
+          res.status(200).json({
+            success: true,
+            layout,
+          });
+          return;
+        }
+        const layout = await LayoutModel.findOne({ type });
+        await redis.set("faq", JSON.stringify(layout), "EX", 604800); // 7 days expiration
+        res.status(201).json({
+          success: true,
+          layout,
+        });
+      } else if (type === "Banner") {
+        const isCacheExist = await redis.get("Banner");
+        if (isCacheExist) {
+          const layout = JSON.parse(isCacheExist);
+          res.status(200).json({
+            success: true,
+            layout,
+          });
+          return;
+        }
+        const layout = await LayoutModel.findOne({ type });
+        await redis.set("Banner", JSON.stringify(layout), "EX", 604800); // 7 days expiration
+        res.status(201).json({
+          success: true,
+          layout,
+        });
+      } else if (type === "Categories") {
+        const isCacheExist = await redis.get("Categories");
+        if (isCacheExist) {
+          const layout = JSON.parse(isCacheExist);
+          res.status(200).json({
+            success: true,
+            layout,
+          });
+          return;
+        }
+        const layout = await LayoutModel.findOne({ type });
+        await redis.set("Categories", JSON.stringify(layout), "EX", 604800); // 7 days expiration
+        res.status(201).json({
+          success: true,
+          layout,
+        });
+      }
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
