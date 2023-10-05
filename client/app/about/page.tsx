@@ -27,6 +27,8 @@ const Page = (props: Props) => {
         route={route}
       />
       <About />
+      <br/>
+      <br/>
       <Footer />
     </div>
   );
