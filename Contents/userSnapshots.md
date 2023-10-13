@@ -14,6 +14,10 @@
 
 ![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/87079541/a9b99dfb-a403-45b3-afa0-c14d8530eb5d)
 
+### ➤ Search Course By name
+
+![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/87079541/322d0938-e407-4de7-a9df-0e7e698cf482)
+
 ### ➤ About Us Page
 
 ![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/87079541/c1655088-8f6d-49ad-8676-df63f9b952f1)
