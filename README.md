@@ -29,4 +29,4 @@ CoursePool is a dynamic online e-learning platform that offers a wide range of c
 - UpStash for redis
 - VdoCipher for secure video
 
-### See the snapshots [Click here]('Contents/Snapshots/snapshots.md')
+### See the snapshots [Click here](./Contents/snapshots.md)
