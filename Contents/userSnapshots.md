@@ -37,3 +37,12 @@
 
 ![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/87079541/28a90b0a-1e22-4a6b-ab9a-82cd6cfc7b28)
 ![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/87079541/2d005c95-b06d-448e-a8ec-c975d0f3076d)
+
+### ➤ Buying Course
+![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/84856389/54e6df64-e905-4ab8-b600-8b8465a59367)
+![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/84856389/48c63ad3-07c1-498d-9813-58ea02c5366a)
+![image](https://github.com/Dharmesh-Poriya07/CoursePool/assets/84856389/1be07006-484c-4108-934a-b8deb25da228)
+
+
+
+
