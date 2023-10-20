@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 // CORS => cross origin rsource sharing
-app.use(cors({ origin: ["https://course-pool.vercel.app"], credentials: true }));
+app.use(cors({ origin: ["https://www.coursepool.tech"], credentials: true }));
 
 // api requests limit
 const limiter = rateLimit({

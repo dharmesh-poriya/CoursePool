@@ -25,7 +25,7 @@ exports.app.use((0, cookie_parser_1.default)());
 // body Parser for json data
 exports.app.use(body_parser_1.default.json());
 // CORS => cross origin rsource sharing
-exports.app.use((0, cors_1.default)({ origin: ["https://course-pool.vercel.app"], credentials: true }));
+exports.app.use((0, cors_1.default)({ origin: ["https://www.coursepool.tech"], credentials: true }));
 // api requests limit
 const limiter = (0, express_rate_limit_1.rateLimit)({
     windowMs: 15 * 60 * 1000,
